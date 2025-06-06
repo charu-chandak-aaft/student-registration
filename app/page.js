@@ -38,7 +38,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/request-otp', {
+      const res = await fetch('/api/auth/request-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobile: phone }),
@@ -57,7 +57,7 @@ export default function RegisterPage() {
 
   const handleResendOtp = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/request-otp', {
+      const res = await fetch('/api/auth/request-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobile: phone }),
@@ -76,7 +76,7 @@ export default function RegisterPage() {
     setOtpError('');
 
     try {
-      const res = await fetch('http://localhost:3000/api/auth/verify-otp', {
+      const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mobile: phone, otp }),
