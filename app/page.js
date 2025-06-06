@@ -1,17 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from 'react';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-//   const [otpSent, setOtpSent] = useState(false);
-//   const [otp, setOtp] = useState('');
-//   const [otpError, setOtpError] = useState('');
-//   const [otpLoading, setOtpLoading] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [otpLoading, setOtpLoading] = useState(false);
+
+  const [timer, setTimer] = useState(60); // countdown in seconds
+
+  useEffect(() => {
+    let interval;
+    if (otpSent && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [otpSent, timer]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,54 +36,67 @@ export default function RegisterPage() {
 
     setError('');
     setLoading(true);
-     localStorage.setItem('registrationPhone', JSON.stringify(phone));
-        router.push('/student-details');
 
-    // try {
-    //   const res = await fetch('/api/send-otp', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ phone }),
-    //     headers: { 'Content-Type': 'application/json' },
-    //   });
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/request-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: phone }),
+      });
 
-    //   if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error('Failed to send OTP');
 
-    //   setOtpSent(true);
-    // } catch {
-    //     // setOtpSent(true);
-    //   setError('Failed to send OTP. Please try again.');
-    // } finally {
-    //   setLoading(false);
-    // }
+      setOtpSent(true);
+      setTimer(60); // Reset timer when OTP is sent
+    } catch {
+      setError('Failed to send OTP. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-//   const handleOtpVerify = async () => {
-//     setOtpLoading(true);
-//     setOtpError('');
+  const handleResendOtp = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/request-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: phone }),
+      });
 
-//     try {
-//       const res = await fetch('/api/verify-otp', {
-//         method: 'POST',
-//         body: JSON.stringify({ phone, otp }),
-//         headers: { 'Content-Type': 'application/json' },
-//       });
+      if (!res.ok) throw new Error('Failed to resend OTP');
 
-//       if (!res.ok) throw new Error();
+      setTimer(60);
+    } catch {
+      setOtpError('Failed to resend OTP. Please try again.');
+    }
+  };
 
-//       const data = await res.json();
+  const handleOtpVerify = async () => {
+    setOtpLoading(true);
+    setOtpError('');
 
-//       if (data.success) {
-//         localStorage.setItem('registrationPhone', JSON.stringify(phone));
-//         router.push('/student-details');
-//       } else {
-//         setOtpError('Invalid OTP. Please try again.');
-//       }
-//     } catch {
-//       setOtpError('Failed to verify OTP. Please try again.');
-//     } finally {
-//       setOtpLoading(false);
-//     }
-//   };
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile: phone, otp }),
+      });
+
+      if (!res.ok) throw new Error('Invalid OTP');
+
+      const data = await res.json();
+      if (data.message) {
+        localStorage.setItem('registrationPhone', phone);
+        router.push('/student-details');
+      } else {
+        setOtpError('Invalid OTP. Please try again.');
+      }
+    } catch {
+      setOtpError('Failed to verify OTP. Please try again.');
+    } finally {
+      setOtpLoading(false);
+    }
+  };
 
   return (
     <div className="relative flex flex-col min-h-svh w-full">
@@ -112,7 +137,7 @@ export default function RegisterPage() {
                     disabled={loading}
                     className="w-full bg-black text-white px-4 py-2 rounded mt-4 hover:bg-gray-800 disabled:opacity-50"
                   >
-                    {loading ? 'Sending OTP...' : 'Register'}
+                    {loading ? 'Sending OTP...' : 'Continue'}
                   </button>
                 </form>
               </div>
@@ -122,7 +147,7 @@ export default function RegisterPage() {
       </div>
 
       {/* OTP Modal */}
-      {/* {otpSent && (
+      {otpSent && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-xl">
             <h3 className="text-lg font-semibold mb-4 text-center">Enter OTP</h3>
@@ -134,24 +159,40 @@ export default function RegisterPage() {
               className="w-full p-2 border rounded mb-2"
             />
             {otpError && <p className="text-sm text-red-500 mb-2">{otpError}</p>}
-            <div className="flex justify-between">
-              <button
-                onClick={handleOtpVerify}
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:opacity-50"
-                disabled={otpLoading}
-              >
-                {otpLoading ? 'Verifying...' : 'Verify OTP'}
-              </button>
+
+            <div className="flex justify-between mb-4">
+              {timer > 0 ? (
+                <button
+                  onClick={handleOtpVerify}
+                  className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:opacity-50"
+                  disabled={otpLoading}
+                >
+                  {otpLoading ? 'Verifying...' : 'Verify OTP'}
+                </button>
+              ) : (
+                <button
+                  onClick={handleResendOtp}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                >
+                  Resend OTP
+                </button>
+              )}
               <button
                 onClick={() => setOtpSent(false)}
-                className="text-gray-600 underline text-sm ml-4"
+                className="text-gray-600 underline text-sm ml-4 cursor-pointer"
               >
                 Cancel
               </button>
             </div>
+
+            {timer > 0 && (
+              <div className="text-center text-sm text-gray-500">
+                Resend OTP in <strong>{timer}s</strong>
+              </div>
+            )}
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
