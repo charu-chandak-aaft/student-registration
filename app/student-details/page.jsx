@@ -277,6 +277,22 @@ export default function StudentDetailsPage() {
 
     return (
         <div className="min-h-screen flex justify-center items-center bg-gray-100 relative overflow-hidden">
+            <div className="hidden md:block absolute left-0 bottom-0 w-1/4 z-0">
+                <img
+                    src="/left_bgImage.png" // replace with your image path
+                    alt="Left Background"
+                    className="object-cover"
+                />
+            </div>
+
+            {/* Right Background Image */}
+            <div className="hidden md:block absolute right-0 bottom-0 w-1/4 z-0">
+                <img
+                    src="/right_bgImage.png" // replace with your image path
+                    alt="Right Background"
+                    className="object-cover"
+                />
+            </div>
             <div className="max-w-3xl max-h-[80%] mx-auto bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200 z-10">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="bg-red-600 px-6 py-2">
@@ -309,7 +325,7 @@ export default function StudentDetailsPage() {
                             <select name="state" value={form.state} onChange={handleChange} className="w-full border p-1 rounded">
                                 <option value="">Select State</option>
                                 {STATES.map(state => (
-                                    <option key={state.id} value={state.name}>{state.name}</option>
+                                    <option key={state.state_id} value={state.name}>{state.name}</option>
                                 ))}
                             </select>
                             {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
@@ -320,7 +336,7 @@ export default function StudentDetailsPage() {
                             <select name="city" value={form.city} onChange={handleChange} disabled={!form.state} className="w-full border p-1 rounded">
                                 <option value="">Select City</option>
                                 {filteredCities.map(city => (
-                                    <option key={city.id} value={city.name}>{city.name}</option>
+                                    <option key={city.name} value={city.name}>{city.name}</option>
                                 ))}
                             </select>
                             {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
