@@ -191,6 +191,7 @@ export default function StudentDetailsPage() {
                         phone: createBody.phone || '',
                         prosId: form.prospectId ? '1' : '0' || '', // You don't have prospectId in createBody, so default to '0'
                         address: createBody.address || '',
+                        guardianName: `${createBody.guardianFirstName || ''} ${createBody.guardianLastName || ''}`.trim(),
                     }).toString();
                     await fetchLeadDetails(form.studentPhone); // fetch again after creation or update
                     setShowSuccessModal(true);
@@ -240,10 +241,11 @@ export default function StudentDetailsPage() {
             phone: dataToSave.phone || '',
             prosId: dataToSave.prospectId ? '1' : '0' || '',
             address: dataToSave.address || '',
+             guardianName: `${dataToSave.guardianFirstName || ''} ${dataToSave.guardianLastName || ''}`.trim(),
         }).toString();
 
         // Navigate to URL with query params
-        router.push(`https://aaft.edu.in/hdfc-pay/hdfcform?${queryParams}`);
+        router.push(`https://dev.aaft.edu.in/hdfc-pay/hdfcform?${queryParams}`);
     };
 
     return (
