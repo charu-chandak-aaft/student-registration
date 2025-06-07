@@ -241,11 +241,15 @@ export default function StudentDetailsPage() {
             phone: dataToSave.phone || '',
             prosId: dataToSave.prospectId ? '1' : '0' || '',
             address: dataToSave.address || '',
-             guardianName: `${dataToSave.guardianFirstName || ''} ${dataToSave.guardianLastName || ''}`.trim(),
+            guardianName: `${dataToSave.guardianFirstName || ''} ${dataToSave.guardianLastName || ''}`.trim(),
         }).toString();
 
         // Navigate to URL with query params
-        router.push(`https://dev.aaft.edu.in/hdfc-pay/hdfcform?${queryParams}`);
+        router.push(`https://aaft.edu.in/hdfc-pay/hdfcform?${queryParams}`);
+    };
+    const handleCancel = (e) => {
+        setShowSuccessModal(false);
+        router.push(`https://aaft.edu.in/`);
     };
 
     return (
@@ -422,22 +426,27 @@ export default function StudentDetailsPage() {
                 </form>
             </div>
             {showSuccessModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-md text-center w-full max-w-sm">
-                        <h2 className="text-xl font-bold text-green-600 mb-2">Thank You .</h2>
+                        <h2 className="text-xl font-bold text-red-900 mb-2">Thank You.</h2>
                         <p className="text-sm mb-4">You will now be redirected to pay....</p>
-                        <button
-                            // onClick={() => {
-                            //     setShowSuccessModal(false);
-                            //     router.push('https://aaft.edu.in/hdfc-pay/hdfcform');
-                            // }}
-                            onClick={handleProceedToPay}
-                            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-                        >
-                            Proceed To Pay &gt;&gt;
-                        </button>
+                        <div className="flex justify-center gap-4">
+                            <button
+                                onClick={handleProceedToPay}
+                                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition cursor-pointer"
+                            >
+                                Proceed To Pay &gt;&gt;
+                            </button>
+                            <button
+                                onClick={handleCancel}
+                                className="border border-gray-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-100 transition cursor-pointer"
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             )}
         </div>
 
