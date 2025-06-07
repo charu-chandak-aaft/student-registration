@@ -183,7 +183,15 @@ export default function StudentDetailsPage() {
                     return;
                 }
                 else {
-                    localStorage.setItem('details', JSON.stringify(createBody));
+                    const queryParams = new URLSearchParams({
+                        school: createBody.school || '',
+                        program: createBody.program || '',
+                        StudentName: `${createBody.firstName || ''} ${createBody.lastName || ''}`.trim(),
+                        email: createBody.email || '',
+                        phone: createBody.phone || '',
+                        prosId: form.prospectId ? '1' : '0' || '', // You don't have prospectId in createBody, so default to '0'
+                        address: createBody.address || '',
+                    }).toString();
                     await fetchLeadDetails(form.studentPhone); // fetch again after creation or update
                     setShowSuccessModal(true);
                 }
@@ -210,7 +218,7 @@ export default function StudentDetailsPage() {
             gender: form.studentGender,
             email: form.studentEmail,
             phone: form.studentPhone,
-             address: form.address,
+            address: form.address,
             school: form.school,
             program: form.program,
             course: form.program,
@@ -224,9 +232,18 @@ export default function StudentDetailsPage() {
             guardianEmail: form.guardianEmail,
             prospectId: form.prospectId,
         };
+        const queryParams = new URLSearchParams({
+            school: dataToSave.school || '',
+            program: dataToSave.program || '',
+            StudentName: `${dataToSave.firstName || ''} ${dataToSave.lastName || ''}`.trim(),
+            email: dataToSave.email || '',
+            phone: dataToSave.phone || '',
+            prosId: dataToSave.prospectId ? '1' : '0' || '',
+            address: dataToSave.address || '',
+        }).toString();
 
-        localStorage.setItem('details', JSON.stringify(dataToSave));
-        router.push('/pay');
+        // Navigate to URL with query params
+        router.push(`https://aaft.edu.in/hdfc-pay/hdfcform?${queryParams}`);
     };
 
     return (
@@ -408,10 +425,11 @@ export default function StudentDetailsPage() {
                         <h2 className="text-xl font-bold text-green-600 mb-2">Thank You .</h2>
                         <p className="text-sm mb-4">You will now be redirected to pay....</p>
                         <button
-                            onClick={() => {
-                                setShowSuccessModal(false);
-                                router.push('/pay');
-                            }}
+                            // onClick={() => {
+                            //     setShowSuccessModal(false);
+                            //     router.push('https://aaft.edu.in/hdfc-pay/hdfcform');
+                            // }}
+                            onClick={handleProceedToPay}
                             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded hover:bg-green-700 transition"
                         >
                             Proceed To Pay &gt;&gt;
