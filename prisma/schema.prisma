@@ -23,7 +23,7 @@ model StudentDetails {
   studentGender     String
   state             String
   city              String
-  address           String   // ✅ New address column
+  address           String?   // ✅ New address column
   school            String
   program           String
   guardianFirstName String
