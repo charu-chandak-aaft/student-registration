@@ -353,7 +353,7 @@ export default function StudentDetailsPage() {
 
                         <div>
                             <label className="block mb-1 text-sm font-semibold">Expected Program of Interest*</label>
-                            <select name="program" value={form.program} onChange={handleChange} disabled={!!form.school} className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed">
+                            <select name="program" value={form.program} onChange={handleChange} disabled={!!form.program} className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed">
                                 <option value="">Select Program</option>
                                 {programOptions.map(course => (
                                     <option key={course} value={course}>{course}</option>
