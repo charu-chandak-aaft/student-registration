@@ -279,7 +279,7 @@ export default function StudentDetailsPage() {
                         {[
                             { label: 'First Name*', name: 'firstName', type: 'text' },
                             { label: 'Last Name*', name: 'lastName', type: 'text' },
-                            { label: 'Email*', name: 'studentEmail', type: 'email' },
+                            // { label: 'Email*', name: 'studentEmail', type: 'email' },
                         ].map(({ label, name, type }) => (
                             <div key={name}>
                                 <label className="block mb-1 text-sm font-semibold">{label}</label>
@@ -287,12 +287,23 @@ export default function StudentDetailsPage() {
                                 {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
                             </div>
                         ))}
+                        <div>
+                            <label className="block mb-1 text-sm font-semibold">Email*</label>
+                            <input
+                                name="studentEmail"
+                                type="email"
+                                value={form.studentEmail}
+                                onChange={handleChange}
+                                disabled={!!form.studentEmail}
+                                className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed"
+                            />
+                        </div>
 
                         <div>
                             <label className="block mb-1 text-sm font-semibold">Student Phone*</label>
                             <div className="relative w-full">
                                 <span className="absolute inset-y-0 left-0 flex items-center bg-black text-white px-4 text-sm rounded-l">+91</span>
-                                <input name="studentPhone" type="text" maxLength={10} value={form.studentPhone} readOnly className="w-full border pl-16 pr-2 py-1 rounded" />
+                                <input name="studentPhone" type="text" maxLength={10} value={form.studentPhone} disabled className="w-full border pl-16 pr-2 py-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed" />
                                 {errors.studentPhone && <p className="text-red-500 text-xs mt-1">{errors.studentPhone}</p>}
                             </div>
                         </div>
@@ -310,7 +321,7 @@ export default function StudentDetailsPage() {
 
                         <div>
                             <label className="block mb-1 text-sm font-semibold">City*</label>
-                            <select name="city" value={form.city} onChange={handleChange} disabled={!form.state} className="w-full border p-1 rounded">
+                            <select name="city" value={form.city} onChange={handleChange} className="w-full border p-1 rounded">
                                 <option value="">Select City</option>
                                 {filteredCities.map(city => (
                                     <option key={city.name} value={city.name}>{city.name}</option>
@@ -321,18 +332,28 @@ export default function StudentDetailsPage() {
 
                         <div>
                             <label className="block mb-1 text-sm font-semibold">Expected School*</label>
-                            <select name="school" value={form.school} onChange={handleChange} className="w-full border p-1 rounded">
+                            <select
+                                name="school"
+                                value={form.school}
+                                onChange={handleChange}
+                                disabled={!!form.school}
+                                className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed"
+                            >
                                 <option value="">Select School</option>
-                                {SCHOOL_LIST.map(school => (
-                                    <option key={school} value={school}>{school}</option>
+                                {SCHOOL_LIST.map((school) => (
+                                    <option key={school} value={school}>
+                                        {school}
+                                    </option>
                                 ))}
                             </select>
-                            {errors.school && <p className="text-red-500 text-xs mt-1">{errors.school}</p>}
+                            {errors.school && (
+                                <p className="text-red-500 text-xs mt-1">{errors.school}</p>
+                            )}
                         </div>
 
                         <div>
                             <label className="block mb-1 text-sm font-semibold">Expected Program of Interest*</label>
-                            <select name="program" value={form.program} onChange={handleChange} disabled={!form.school} className="w-full border p-1 rounded">
+                            <select name="program" value={form.program} onChange={handleChange} disabled={!!form.school} className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed">
                                 <option value="">Select Program</option>
                                 {programOptions.map(course => (
                                     <option key={course} value={course}>{course}</option>
