@@ -149,49 +149,63 @@ export default function RegisterPage() {
       {/* OTP Modal */}
       {otpSent && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-xl">
-            <h3 className="text-lg font-semibold mb-4 text-center">Enter OTP</h3>
-            <input
-              type="text"
-              placeholder="Enter the OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              className="w-full p-2 border rounded mb-2"
-            />
-            {otpError && <p className="text-sm text-red-500 mb-2">{otpError}</p>}
+  <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-xl">
+    <h3 className="text-lg font-semibold mb-4 text-center">Enter OTP</h3>
 
-            <div className="flex justify-between mb-4">
-              {timer > 0 ? (
-                <button
-                  onClick={handleOtpVerify}
-                  className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:opacity-50"
-                  disabled={otpLoading}
-                >
-                  {otpLoading ? 'Verifying...' : 'Verify OTP'}
-                </button>
-              ) : (
-                <button
-                  onClick={handleResendOtp}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                  Resend OTP
-                </button>
-              )}
-              <button
-                onClick={() => setOtpSent(false)}
-                className="text-gray-600 underline text-sm ml-4 cursor-pointer"
-              >
-                Cancel
-              </button>
-            </div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleOtpVerify();
+      }}
+    >
+      <input
+        type="text"
+        placeholder="Enter the OTP"
+        value={otp}
+        onChange={(e) => setOtp(e.target.value)}
+        className="w-full p-2 border rounded mb-2"
+      />
+      {otpError && (
+        <p className="text-sm text-red-500 mb-2">{otpError}</p>
+      )}
 
-            {timer > 0 && (
-              <div className="text-center text-sm text-gray-500">
-                Resend OTP in <strong>{timer}s</strong>
-              </div>
-            )}
-          </div>
+      <div className="flex justify-between mb-4">
+        {timer > 0 ? (
+          <button
+            type="submit"
+            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:opacity-50"
+            disabled={otpLoading}
+          >
+            {otpLoading ? 'Verifying...' : 'Verify OTP'}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Resend OTP
+          </button>
+        )}
+
+        <button
+          type="button"
+          onClick={() => setOtpSent(false)}
+          className="text-gray-600 underline text-sm ml-4 cursor-pointer"
+        >
+          Cancel
+        </button>
+      </div>
+
+      {timer > 0 && (
+        <div className="text-center text-sm text-gray-500">
+          Resend OTP in <strong>{timer}s</strong>
         </div>
+      )}
+    </form>
+  </div>
+</div>
+
       )}
     </div>
   );
