@@ -7,6 +7,11 @@ import { getCourseList, SCHOOL_LIST } from "../lib/school_program";
 
 export default function StudentDetailsPage() {
     const router = useRouter();
+    const [lsqPrefilled, setLsqPrefilled] = useState({
+        email: false,
+        school: false,
+        program: false
+    });
     const [form, setForm] = useState({
         firstName: '',
         lastName: '',
@@ -63,6 +68,11 @@ export default function StudentDetailsPage() {
                     guardianEmail: lead.mx_Guardian_Email || '',
                     guardianPhone: lead.mx_Guardian_Phone_Number || '',
                 }));
+                setLsqPrefilled({
+                    email: !!lead.EmailAddress,
+                    school: !!school,
+                    program: !!courseList.includes(lead.mx_Course_Interested_In)
+                });
             }
         } catch (err) {
             console.error('Error fetching LSQ lead:', err);
@@ -295,6 +305,7 @@ export default function StudentDetailsPage() {
                                 value={form.studentEmail}
                                 onChange={handleChange}
                                 // disabled={!!form.studentEmail}
+                                disabled={lsqPrefilled.email}
                                 className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed"
                             />
                         </div>
@@ -336,7 +347,8 @@ export default function StudentDetailsPage() {
                                 name="school"
                                 value={form.school}
                                 onChange={handleChange}
-                                disabled={!!form.school}
+                                // disabled={!!form.school}
+                                disabled={lsqPrefilled.school}
                                 className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed"
                             >
                                 <option value="">Select School</option>
@@ -353,7 +365,10 @@ export default function StudentDetailsPage() {
 
                         <div>
                             <label className="block mb-1 text-sm font-semibold">Expected Program of Interest*</label>
-                            <select name="program" value={form.program} onChange={handleChange} disabled={!!form.program} className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed">
+                            <select name="program" value={form.program} onChange={handleChange} 
+                            // disabled={!!form.program}
+                            disabled={lsqPrefilled.program}
+                             className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed">
                                 <option value="">Select Program</option>
                                 {programOptions.map(course => (
                                     <option key={course} value={course}>{course}</option>
