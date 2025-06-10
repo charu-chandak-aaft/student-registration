@@ -14,7 +14,7 @@ export default function RegisterPage() {
   const [otpLoading, setOtpLoading] = useState(false);
 
   const [timer, setTimer] = useState(60); // countdown in seconds
-
+  console.log("NODE_ENV:", process.env.NODE_ENV);
   useEffect(() => {
     let interval;
     if (otpSent && timer > 0) {
@@ -101,6 +101,22 @@ export default function RegisterPage() {
   return (
     <div className="relative flex flex-col min-h-svh w-full">
       <div className="flex justify-center p-4 bg-white dark:bg-muted/50 dark:backdrop-blur-2xl">
+       <div className="hidden md:block absolute left-0 bottom-0 w-1/4 z-0">
+                <img
+                    src="/left_bgImage.png" // replace with your image path
+                    alt="Left Background"
+                    className="object-cover"
+                />
+            </div>
+
+            {/* Right Background Image */}
+            <div className="hidden md:block absolute right-0 bottom-0 w-1/4 z-0">
+                <img
+                    src="/right_bgImage.png" // replace with your image path
+                    alt="Right Background"
+                    className="object-cover"
+                />
+            </div>
         <img src="/aaft-uni-logo.png" alt="Referral Logo" className="h-16 w-42 object-cover z-10" />
       </div>
 

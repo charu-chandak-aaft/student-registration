@@ -294,7 +294,7 @@ export default function StudentDetailsPage() {
                                 type="email"
                                 value={form.studentEmail}
                                 onChange={handleChange}
-                                disabled={!!form.studentEmail}
+                                // disabled={!!form.studentEmail}
                                 className="w-full border p-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed"
                             />
                         </div>
