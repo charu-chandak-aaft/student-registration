@@ -42,7 +42,7 @@ export async function POST(req) {
       { Attribute: "mx_City", Value: city || '' },
       { Attribute: "mx_State", Value: state || '' },
       { Attribute: "mx_Street1", Value: address || '' },
-      { Attribute: "Source", Value: "Online Registration" },
+      { Attribute: "Source", Value: "Admission Portal" },
       { Attribute: "mx_utm_term_remarketing", Value: referralId || '' },
       { Attribute: "mx_Sanctioning_Body", Value: staffName || '' },
       { Attribute: "mx_Guardian_First_Name", Value: guardianFirstName || '' },
