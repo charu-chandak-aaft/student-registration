@@ -32,8 +32,11 @@ input::placeholder {
 
 /* Optional: Specific to tel input */
 input[type="tel"]::placeholder {
-  color: #666;
+  color: #999;
 }
  input {
   border-color: #999;
+ }
+ input, select{
+  color:#0a0a0a;
  }

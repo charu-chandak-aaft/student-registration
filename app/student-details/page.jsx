@@ -292,13 +292,13 @@ export default function StudentDetailsPage() {
                             // { label: 'Email*', name: 'studentEmail', type: 'email' },
                         ].map(({ label, name, type }) => (
                             <div key={name}>
-                                <label className="block mb-1 text-sm font-semibold">{label}</label>
+                                <label className="block mb-1 text-sm font-semibold text-black">{label}</label>
                                 <input name={name} type={type} value={form[name]} onChange={handleChange} className="w-full border p-1 rounded" />
                                 {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
                             </div>
                         ))}
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">Email*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">Email*</label>
                             <input
                                 name="studentEmail"
                                 type="email"
@@ -311,7 +311,7 @@ export default function StudentDetailsPage() {
                         </div>
 
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">Student Phone*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">Student Phone*</label>
                             <div className="relative w-full">
                                 <span className="absolute inset-y-0 left-0 flex items-center bg-black text-white px-4 text-sm rounded-l">+91</span>
                                 <input name="studentPhone" type="text" maxLength={10} value={form.studentPhone} disabled className="w-full border pl-16 pr-2 py-1 rounded disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-not-allowed" />
@@ -320,7 +320,7 @@ export default function StudentDetailsPage() {
                         </div>
 
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">State*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">State*</label>
                             <select name="state" value={form.state} onChange={handleChange} className="w-full border p-1 rounded">
                                 <option value="">Select State</option>
                                 {STATES.map(state => (
@@ -331,7 +331,7 @@ export default function StudentDetailsPage() {
                         </div>
 
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">City*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">City*</label>
                             <select name="city" value={form.city} onChange={handleChange} className="w-full border p-1 rounded">
                                 <option value="">Select City</option>
                                 {filteredCities.map(city => (
@@ -342,7 +342,7 @@ export default function StudentDetailsPage() {
                         </div>
 
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">Expected School*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">Expected School*</label>
                             <select
                                 name="school"
                                 value={form.school}
@@ -364,7 +364,7 @@ export default function StudentDetailsPage() {
                         </div>
 
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">Expected Program of Interest*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">Expected Program of Interest*</label>
                             <select name="program" value={form.program} onChange={handleChange} 
                             // disabled={!!form.program}
                             disabled={lsqPrefilled.program}
@@ -378,7 +378,7 @@ export default function StudentDetailsPage() {
                         </div>
 
                         <div className="">
-                            <label className="text-sm font-semibold">Gender*</label>
+                            <label className="text-sm font-semibold text-black">Gender*</label>
                             <div className="flex gap-4">
                                 {['Male', 'Female', 'Other'].map(gender => (
                                     <label key={gender} className="flex items-center gap-1">
@@ -390,7 +390,7 @@ export default function StudentDetailsPage() {
                             {errors.studentGender && <p className="text-red-500 text-xs mt-1">{errors.studentGender}</p>}
                         </div>
                         <div className="">
-                            <label className="text-sm font-semibold">
+                            <label className="text-sm font-semibold text-black">
                                 Address*
                             </label>
                             <input
@@ -418,14 +418,14 @@ export default function StudentDetailsPage() {
                             { label: 'Guardian Email', name: 'guardianEmail', type: 'email' },
                         ].map(({ label, name, type = 'text' }) => (
                             <div key={name}>
-                                <label className="block mb-1 text-sm font-semibold">{label}</label>
+                                <label className="block mb-1 text-sm font-semibold text-black">{label}</label>
                                 <input name={name} type={type} value={form[name]} onChange={handleChange} className="w-full border p-1 rounded" />
                                 {errors[name] && <p className="text-red-500 text-xs mt-1">{errors[name]}</p>}
                             </div>
                         ))}
 
                         <div>
-                            <label className="block mb-1 text-sm font-semibold">Guardian Phone*</label>
+                            <label className="block mb-1 text-sm font-semibold text-black">Guardian Phone*</label>
                             <div className="relative w-full">
                                 <span className="absolute inset-y-0 left-0 flex items-center bg-black text-white px-4 text-sm rounded-l">+91</span>
                                 <input name="guardianPhone" type="text" maxLength={10} value={form.guardianPhone} onChange={handleChange} className="w-full border pl-16 pr-2 py-1 rounded" />
@@ -465,7 +465,7 @@ export default function StudentDetailsPage() {
                 <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-md text-center w-full max-w-sm">
                         <h2 className="text-xl font-bold text-red-900 mb-2">Thank You.</h2>
-                        <p className="text-sm mb-4">You will now be redirected to pay....</p>
+                        <p className="text-sm mb-4 text-black">You will now be redirected to pay....</p>
                         <div className="flex justify-center gap-4">
                             <button
                                 onClick={handleProceedToPay}
