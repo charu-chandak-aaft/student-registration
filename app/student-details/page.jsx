@@ -381,7 +381,7 @@ export default function StudentDetailsPage() {
                             <label className="text-sm font-semibold text-black">Gender*</label>
                             <div className="flex gap-4">
                                 {['Male', 'Female', 'Other'].map(gender => (
-                                    <label key={gender} className="flex items-center gap-1">
+                                    <label key={gender} className="flex items-center gap-1 text-black">
                                         <input type="radio" name="studentGender" value={gender} checked={form.studentGender === gender} onChange={handleChange} />
                                         {gender}
                                     </label>
